@@ -1,0 +1,579 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tiêu đề ngắn gọn bằng Tiếng Anh -->
+    <title>EduFile Hub</title>
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Thiết lập font Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #eef2f8; /* Màu nền sáng và hiện đại */
+            transition: background-color 0.3s;
+        }
+        /* Custom scrollbar for aesthetics */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f0f4f8; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 4px; } 
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; } 
+        
+        /* Transition cho card */
+        .document-card {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        }
+        .document-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Đổ bóng sâu hơn khi hover */
+        }
+        /* Hiệu ứng focus cho input */
+        input:focus, select:focus {
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.4); /* Màu focus nổi bật hơn */
+            outline: none;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-indigo': '#4f46e5', // Indigo đậm (chủ đạo)
+                        'secondary-indigo': '#6366f1', // Indigo sáng hơn
+                        'accent-green': '#10b981', // Xanh lá cây (cho nút Mua)
+                        'accent-yellow': '#f59e0b', // Vàng (cho nút View)
+                        'accent-red': '#ef4444', // Đỏ (cho giá)
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-2xl sticky top-0 z-10 transition duration-300">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <!-- Logo: EduFile Hub -->
+            <div class="text-3xl font-extrabold text-primary-indigo flex items-center mb-4 md:mb-0 transform hover:scale-[1.05] transition duration-500 cursor-pointer">
+                <span class="mr-2 text-4xl">📚</span> <span class="tracking-wider">EduFile Hub</span>
+            </div>
+
+            <!-- Menu & Search -->
+            <div class="flex flex-col md:flex-row items-center w-full md:w-auto">
+                <!-- Menu -->
+                <nav class="flex space-x-4 mb-4 md:mb-0 md:mr-6 text-sm font-medium">
+                    <a href="#home" class="text-gray-600 hover:text-primary-indigo transition duration-200 py-1 border-b-2 border-transparent hover:border-primary-indigo font-bold">Trang Chủ</a>
+                    <a href="#resources" class="text-gray-600 hover:text-primary-indigo transition duration-200 py-1 border-b-2 border-transparent hover:border-primary-indigo font-bold">Danh Mục</a>
+                    <a href="#guide" class="text-gray-600 hover:text-primary-indigo transition duration-200 py-1 border-b-2 border-transparent hover:border-primary-indigo font-bold">Hướng Dẫn</a>
+                    <a href="#contact" class="text-gray-600 hover:text-primary-indigo transition duration-200 py-1 border-b-2 border-transparent hover:border-primary-indigo font-bold">Liên Hệ</a>
+                </nav>
+                
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="search-input" oninput="applyFilters()" placeholder="Tìm kiếm tài liệu..."
+                        class="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-full focus:ring-primary-indigo focus:border-primary-indigo transition text-sm shadow-inner hover:border-secondary-indigo">
+                    <!-- Search Icon (Lucide/Heroicon style) -->
+                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="text-white py-24 px-4 mb-16 shadow-2xl" style="background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);">
+        <div class="container mx-auto text-center max-w-3xl">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate-fadeIn" style="animation-delay: 0.2s;">
+                Tài Liệu Học Tập Chất Lượng Cao – Chuẩn Bị Cho Mọi Bài Thi 🚀
+            </h1>
+            <p class="text-lg md:text-xl mb-8 font-light animate-slideUp" style="animation-delay: 0.4s; opacity: 0.9;">
+                Truy cập kho tài nguyên số được đồng bộ hóa, cập nhật theo thời gian thực.
+            </p>
+            <a href="#resources" class="inline-block bg-accent-green text-white font-bold py-3 px-10 rounded-full shadow-2xl hover:bg-green-600 transition duration-300 transform hover:scale-105 ring-4 ring-green-400/50">
+                Khám Phá Tài Nguyên Ngay
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Content: Resource List -->
+    <main id="resources" class="container mx-auto px-4 mb-20">
+        <h2 class="text-3xl font-extrabold text-center mb-12 text-primary-indigo border-b-4 border-indigo-300 pb-2 w-fit mx-auto">Danh Mục Tài Liệu</h2>
+
+        <!-- Filters & Stats (Sử dụng màu sắc sinh động hơn) -->
+        <div class="flex flex-wrap gap-4 items-center justify-between mb-8 bg-indigo-50/70 p-5 rounded-2xl shadow-2xl border-l-4 border-primary-indigo/80">
+            <!-- Subject Filter -->
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+                <label for="subject-filter" class="font-medium text-gray-700 flex-shrink-0">Lọc theo Môn học:</label>
+                <select id="subject-filter" onchange="applyFilters()" class="py-2 px-4 border border-indigo-300 bg-indigo-100 rounded-lg focus:ring-primary-indigo focus:border-primary-indigo text-sm transition duration-150 cursor-pointer hover:border-primary-indigo shadow-sm">
+                    <option value="">Tất cả Môn học</option>
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
+            
+            <!-- Price Filter (Basic Simulation) -->
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+                 <label for="price-filter" class="font-medium text-gray-700 flex-shrink-0">Lọc theo Giá:</label>
+                <select id="price-filter" onchange="applyFilters()" class="py-2 px-4 border border-indigo-300 bg-indigo-100 rounded-lg focus:ring-primary-indigo focus:border-primary-indigo text-sm transition duration-150 cursor-pointer hover:border-primary-indigo shadow-sm">
+                    <option value="">Tất cả mức giá</option>
+                    <option value="free">Miễn phí</option>
+                    <option value="paid">Có phí</option>
+                </select>
+            </div>
+
+            <!-- Document Count -->
+            <p class="text-sm text-gray-500 hidden sm:block">
+                Tổng số tài liệu: <span id="document-count" class="font-extrabold text-secondary-indigo text-xl">0</span>
+            </p>
+        </div>
+
+        <!-- Document Cards Grid -->
+        <div id="document-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Document cards will be injected here by JavaScript -->
+            <div class="col-span-full text-center py-10" id="loading-message">
+                <p class="text-lg font-medium text-primary-indigo flex items-center justify-center">
+                    <!-- Loading Spinner SVG -->
+                    <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary-indigo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Đang tải dữ liệu từ Google Sheets...
+                </p>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-20 bg-white rounded-2xl shadow-xl mt-8 border border-indigo-100">
+            <p class="text-xl font-semibold text-gray-600">
+                🔍 Không tìm thấy tài liệu phù hợp. Vui lòng thử từ khóa hoặc bộ lọc khác.
+            </p>
+        </div>
+
+    </main>
+    
+    <!-- How to Purchase Guide Section -->
+    <section id="guide" class="bg-indigo-50 py-16 px-4 mb-16 shadow-inner border-t border-indigo-100">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl font-extrabold text-center mb-12 text-primary-indigo">Quy Trình Mua File</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <!-- Step 1 -->
+                <div class="p-6 rounded-xl border border-indigo-300 shadow-xl bg-white transform hover:shadow-2xl transition duration-300 hover:scale-[1.02]">
+                    <div class="bg-primary-indigo/10 text-primary-indigo w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl mx-auto mb-4 border-2 border-primary-indigo/30">1</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900">Xem Chi Tiết</h3>
+                    <p class="text-gray-600 text-sm">Bấm "Xem Chi Tiết" để đọc mô tả, ID file và giá. Sử dụng nút "Link Xem Trước" nếu có.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="p-6 rounded-xl border border-indigo-300 shadow-xl bg-white transform hover:shadow-2xl transition duration-300 hover:scale-[1.02]">
+                    <div class="bg-primary-indigo/10 text-primary-indigo w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl mx-auto mb-4 border-2 border-primary-indigo/30">2</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900">Liên Hệ Mua</h3>
+                    <p class="text-gray-600 text-sm">Bấm "Mua Ngay qua Zalo" để chat. Tin nhắn với ID file sẽ được tạo sẵn.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="p-6 rounded-xl border border-indigo-300 shadow-xl bg-white transform hover:shadow-2xl transition duration-300 hover:scale-[1.02]">
+                    <div class="bg-primary-indigo/10 text-primary-indigo w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl mx-auto mb-4 border-2 border-primary-indigo/30">3</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900">Tải File Đã Mua</h3>
+                    <p class="text-gray-600 text-sm">Sau khi thanh toán, bạn sẽ nhận được liên kết tải xuống. Hoàn tiền nếu tài liệu bị lỗi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+   <!-- Document Detail Modal (Hidden by default) -->
+    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 hidden" onclick="hideModal(event)">
+        <div class="bg-white w-full max-w-5xl rounded-2xl shadow-3xl p-6 md:p-10 transform transition-all duration-300 scale-100 border-t-8 border-primary-indigo" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-6">
+                <h3 id="modal-title" class="text-3xl font-extrabold text-primary-indigo"></h3>
+                <button onclick="document.getElementById('detail-modal').classList.add('hidden')" class="text-gray-400 hover:text-red-500 transition p-2 rounded-full hover:bg-gray-100">
+                    <!-- Close Icon -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-1 flex flex-col items-center">
+                    <img id="modal-image" src="" alt="Hình ảnh tài liệu" class="w-full h-auto rounded-xl shadow-lg object-cover border-4 border-white ring-1 ring-gray-200 aspect-[4/5]">
+                    <p class="mt-4 text-center text-xl font-bold text-accent-red bg-red-50 p-2 rounded-lg w-full" id="modal-price"></p>
+                    <p class="text-xs text-gray-500 mt-1">Mã file: <span id="modal-id" class="font-bold text-gray-700"></span></p>
+                </div>
+                <div class="md:col-span-2 space-y-4">
+                    <p class="flex items-center"><span class="font-semibold text-gray-700 mr-2">Môn học:</span> <span id="modal-mon" class="font-bold text-secondary-indigo p-1 bg-indigo-100 rounded text-sm"></span></p>
+                    <div id="modal-description-container" class="text-gray-700 text-base leading-relaxed whitespace-pre-line border-l-4 border-secondary-indigo pl-4 pt-1 pb-1 max-h-60 overflow-y-auto bg-gray-50 p-4 rounded-lg shadow-inner">
+                        <p id="modal-description"></p>
+                    </div>
+
+                    <div class="mt-6 space-y-3">
+                        <!-- Nút 1: Mua Ngay qua Zalo (Màu Xanh lá - Mua hàng) -->
+                        <a id="modal-zalo-buy-link" target="_blank" class="block w-full text-center bg-accent-green text-white font-extrabold py-3 px-6 rounded-xl shadow-xl hover:bg-green-600 transition duration-300 transform hover:scale-[1.01] cursor-pointer">
+                            <span class="mr-2">🛍️</span> Mua Ngay qua Zalo
+                        </a>
+                        
+                        <!-- Nút 2: Xem Tài Liệu (Đã Mua) (Màu Xanh tím - Quan trọng nhất) -->
+                        <a id="modal-view-purchased-link" target="_blank" class="block w-full text-center border-2 border-primary-indigo bg-primary-indigo text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-secondary-indigo transition duration-300 cursor-pointer">
+                            <span class="mr-2">✅</span> Xem Tài Liệu (Đã Mua)
+                        </a>
+
+                        <!-- Nút 3: Xem Tài Liệu (Link Xem Trước) (Màu Vàng - Preview/Shopee) -->
+                        <button id="modal-preview-link" class="block w-full text-center bg-accent-yellow text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-yellow-600 transition duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span class="mr-2">👁️</span> Xem Tài Liệu (Link Xem Trước)
+                        </button>
+
+                    </div>
+                    <p class="text-xs text-gray-500 text-center pt-2">Vui lòng liên hệ Zalo để nhận link xem tài liệu (Đã Mua).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer - Professional Contact Section -->
+    <footer id="contact" class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 border-b border-gray-700 pb-8 mb-8">
+                <!-- Column 1: About -->
+                <div class="md:col-span-1">
+                    <h4 class="text-xl font-extrabold mb-4 text-primary-indigo">EduFile Hub</h4>
+                    <p class="text-sm text-gray-400">
+                        Nền tảng tài liệu học tập đáng tin cậy. Chúng tôi cung cấp các file chất lượng cao, được chọn lọc và cập nhật liên tục.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="md:col-span-1">
+                    <h4 class="text-xl font-bold mb-4">Liên Kết Nhanh</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#resources" class="text-gray-400 hover:text-secondary-indigo transition">Danh Mục Tài Liệu</a></li>
+                        <li><a href="#guide" class="text-gray-400 hover:text-secondary-indigo transition">Hướng Dẫn Mua</a></li>
+                        <li><a href="https://zalo.me/0799457172" target="_blank" class="text-gray-400 hover:text-accent-green transition">Hỗ Trợ Khách Hàng (Zalo)</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-secondary-indigo transition">Chính Sách</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact Info -->
+                <div class="md:col-span-2">
+                    <h4 class="text-xl font-bold mb-4">Thông Tin Hỗ Trợ</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>📧 Email: <a href="mailto:tailieuhoctapp01@gmail.com" class="hover:text-secondary-indigo">tailieuhoctapp01@gmail.com</a></li>
+                        <li>
+                            📱 Hỗ trợ (Zalo/Phone): 
+                            <!-- Đã sửa đổi theo yêu cầu: chỉ ghi "Liên hệ" -->
+                            <a href="https://zalo.me/0799457172" target="_blank" class="text-accent-green font-bold hover:text-green-400 underline ml-1">Liên hệ</a> 
+                        </li>
+                        <li>📍 Địa chỉ: Tầng 5, Tòa nhà Giáo Dục, Hà Nội, Việt Nam</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center text-sm text-gray-500 mt-4">
+                <p>Bản quyền © 2025 EduFile Hub. Đã đăng ký bản quyền.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cấu hình URL và số điện thoại
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgizG6w1k8yeMpzxgk4U3gJgGRe28J5NWFkcx7WQEvLdOHkl258kaT7LvoRD1E0IU64BdCEGB52QCV/pub?output=csv'; // Cập nhật lại URL này nếu sheet của bạn thay đổi
+        const ZALO_PHONE_NUMBER = '0799457172';
+
+        // Biến lưu trữ dữ liệu gốc và trạng thái click trong session
+        let allDocuments = [];
+        let clickedPreviewLinks = new Set(); 
+
+        // Hàm chuyển đổi CSV thành mảng JSON
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length <= 1) return [];
+
+            // Chuyển đổi tên cột mới sang chữ thường để mapping
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                // Sử dụng regex để xử lý các giá trị có dấu phẩy bên trong dấu ngoặc kép
+                const values = lines[i].match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g)?.map(v => v.replace(/^"|"$/g, '').trim()) || [];
+
+                if (values.length >= headers.length) { // Dùng >= để chấp nhận các cột bổ sung như mota/hinhanh
+                    const row = {};
+                    let isValidRow = false;
+                    
+                    headers.forEach((header, index) => {
+                        row[header] = values[index] || '';
+                        // Nếu có ID và tiêu đề, đây là hàng hợp lệ
+                        if (row['id'] && row['tieude']) {
+                            isValidRow = true;
+                        }
+                    });
+
+                    if (isValidRow) {
+                        // Xử lý xuống dòng trong mô tả (giả định cột mô tả là 'mota')
+                        if (row.mota) {
+                            row.mota = row.mota.replace(/\\n/g, '\n'); 
+                        }
+                        data.push(row);
+                    }
+                }
+            }
+            return data;
+        }
+
+        // Hàm định dạng giá tiền
+        function formatPrice(priceStr) {
+            // Loại bỏ tất cả ký tự không phải số
+            const price = parseInt(priceStr.replace(/[^0-9]/g, ''), 10); 
+            if (isNaN(price) || price <= 0) return '<span class="text-accent-green font-extrabold">Miễn phí</span>';
+            return price.toLocaleString('vi-VN') + 'đ';
+        }
+        
+        // Hàm tạo HTML cho mỗi Card tài liệu
+        function createDocumentCard(doc) {
+            // Giả định 'hinhanh' và 'mota' vẫn được giữ trong sheet
+            const imageUrl = doc.hinhanh && doc.hinhanh.startsWith('http') ? doc.hinhanh : `https://placehold.co/400x300/e0f2fe/1d4ed8?text=${encodeURIComponent(doc.mon || 'Tài Liệu')}`;
+            const descriptionSnippet = doc.mota ? (doc.mota.split('\n')[0].substring(0, 100) + (doc.mota.length > 100 ? '...' : '')) : 'Chưa có mô tả ngắn.';
+
+            return `
+                <div class="bg-white rounded-xl document-card shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col border border-gray-100">
+                    <div class="h-48 overflow-hidden">
+                        <img src="${imageUrl}" alt="${doc.tieude}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e0f2fe/1d4ed8?text=Lỗi+Ảnh';" 
+                            class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col">
+                        <span class="text-xs font-semibold text-secondary-indigo bg-indigo-100 px-2 py-0.5 rounded-full w-fit mb-2">${doc.mon || 'Khác'}</span>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900 line-clamp-2">${doc.tieude || 'Tiêu đề trống'}</h3>
+                        <p class="text-sm text-gray-600 mb-4 line-clamp-2">${descriptionSnippet}</p>
+                        
+                        <div class="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
+                            <span class="text-lg font-extrabold text-accent-red">${formatPrice(doc.gia)}</span>
+                            <button onclick='showDetails(${JSON.stringify(doc).replace(/'/g, "\\'")})'
+                                class="bg-primary-indigo text-white text-sm font-semibold py-2 px-4 rounded-full hover:bg-secondary-indigo transition duration-200 transform hover:scale-105 shadow-md">
+                                Xem Chi Tiết
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Hàm render danh sách tài liệu (Giữ nguyên)
+        function renderDocuments(documents) {
+            const listContainer = document.getElementById('document-list');
+            const countElement = document.getElementById('document-count');
+            const noResults = document.getElementById('no-results');
+
+            document.getElementById('loading-message').classList.add('hidden');
+            
+            if (documents.length === 0) {
+                listContainer.innerHTML = '';
+                noResults.classList.remove('hidden');
+            } else {
+                listContainer.innerHTML = documents.map(createDocumentCard).join('');
+                noResults.classList.add('hidden');
+            }
+            countElement.textContent = documents.length;
+        }
+
+        // Hàm populate bộ lọc Môn học (Giữ nguyên)
+        function populateFilters(documents) {
+            // Lấy ra các giá trị mon duy nhất, loại bỏ khoảng trắng và sắp xếp
+            const subjectSet = new Set(documents.map(d => (d.mon || '').trim()).filter(m => m !== '').sort());
+            const filterSelect = document.getElementById('subject-filter');
+            
+            filterSelect.innerHTML = '<option value="">Tất cả Môn học</option>'; 
+
+            subjectSet.forEach(mon => {
+                const option = document.createElement('option');
+                option.value = mon;
+                option.textContent = mon;
+                filterSelect.appendChild(option);
+            });
+        }
+
+        // Hàm kiểm tra nếu tài liệu là miễn phí
+        function isFree(priceStr) {
+            const price = parseInt((priceStr || '').replace(/[^0-9]/g, ''), 10);
+            return isNaN(price) || price <= 0;
+        }
+        
+        // Hàm áp dụng tìm kiếm và lọc (Đã khắc phục lỗi tìm kiếm: đảm bảo các trường tìm kiếm không null)
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const selectedMon = document.getElementById('subject-filter').value.trim(); 
+            const selectedPrice = document.getElementById('price-filter').value;
+
+            const filteredData = allDocuments.filter(doc => {
+                const docMonTrimmed = (doc.mon || '').trim();
+                
+                // Khắc phục lỗi: Đảm bảo các trường tiêu đề và mô tả không phải là null/undefined trước khi gọi toLowerCase()
+                const docTieude = (doc.tieude || '').toLowerCase();
+                const docMota = (doc.mota || '').toLowerCase();
+
+                const matchesSearch = docTieude.includes(searchTerm) || docMota.includes(searchTerm);
+
+                // So sánh môn học đã được trim
+                const matchesMon = !selectedMon || (docMonTrimmed === selectedMon);
+
+                let matchesPrice = true;
+                if (selectedPrice === 'free') {
+                    matchesPrice = isFree(doc.gia);
+                } else if (selectedPrice === 'paid') {
+                    matchesPrice = !isFree(doc.gia);
+                }
+
+                return matchesSearch && matchesMon && matchesPrice;
+            });
+
+            renderDocuments(filteredData);
+        }
+
+        // Hàm xử lý logic chuyển hướng Shopee/Link Tài liệu (Giữ nguyên)
+        function handlePreviewClick(docId, linkShopee, linkPreview, buttonElement) {
+            // Kiểm tra link Shopee và link Preview có tồn tại không
+            if (linkShopee === 'javascript:void(0)' && linkPreview === 'javascript:void(0)') return;
+
+            // Kiểm tra xem ID tài liệu đã được click trước đó trong phiên này chưa
+            if (clickedPreviewLinks.has(docId)) {
+                // Lần click thứ 2 trở đi: Chuyển đến link xem trước thực tế (tailieuxemthu)
+                window.open(linkPreview, '_blank');
+            } else {
+                // Lần click đầu tiên: Chuyển đến link Shopee (linkshope)
+                window.open(linkShopee, '_blank');
+                // Ghi lại trạng thái đã click
+                clickedPreviewLinks.add(docId);
+                
+                // Cập nhật giao diện nút cho lần sau
+                buttonElement.textContent = '✅ Xem Tài Liệu (Link Đã Mở)';
+                buttonElement.classList.remove('bg-accent-yellow', 'hover:bg-yellow-600');
+                buttonElement.classList.add('bg-green-500', 'hover:bg-green-600');
+            }
+        }
+        
+        // Hàm hiển thị Modal chi tiết (Giữ nguyên)
+        function showDetails(doc) {
+            const parsedDoc = typeof doc === 'string' ? JSON.parse(doc) : doc;
+            const docId = parsedDoc.id || 'N/A'; 
+            
+            // Lấy các liên kết mới
+            const linkShopee = parsedDoc.linkshope && parsedDoc.linkshope.startsWith('http') ? parsedDoc.linkshope : 'javascript:void(0)';
+            const linkPreview = parsedDoc.tailieuxemthu && parsedDoc.tailieuxemthu.startsWith('http') ? parsedDoc.tailieuxemthu : 'javascript:void(0)';
+            const linkPurchased = parsedDoc.tailieumua && parsedDoc.tailieumua.startsWith('http') ? parsedDoc.tailieumua : 'javascript:void(0)';
+
+
+            document.getElementById('modal-title').textContent = parsedDoc.tieude;
+            document.getElementById('modal-id').textContent = docId;
+            document.getElementById('modal-mon').textContent = parsedDoc.mon || 'Chưa phân loại';
+            document.getElementById('modal-description').textContent = parsedDoc.mota;
+            document.getElementById('modal-price').innerHTML = `Giá bán: ${formatPrice(parsedDoc.gia)}`;
+            
+            const imageUrl = parsedDoc.hinhanh && parsedDoc.hinhanh.startsWith('http') ? parsedDoc.hinhanh : 'https://placehold.co/400x400/e0f2fe/1d4ed8?text=Ảnh+Bìa+Placeholder';
+            document.getElementById('modal-image').src = imageUrl;
+            
+            // --- 1. Cập nhật Zalo Mua Hàng ---
+            const prefilledMessage = encodeURIComponent(`Tôi muốn mua file mã: ${docId}. Tên file: ${parsedDoc.tieude}`);
+            const zaloLink = `https://zalo.me/${ZALO_PHONE_NUMBER}?text=${prefilledMessage}`;
+            document.getElementById('modal-zalo-buy-link').href = zaloLink;
+            
+            // --- 2. Cập nhật Xem Tài Liệu (Đã Mua) ---
+            const purchasedLinkElement = document.getElementById('modal-view-purchased-link');
+            if (linkPurchased === 'javascript:void(0)') {
+                 purchasedLinkElement.href = 'javascript:void(0)';
+                 purchasedLinkElement.classList.add('opacity-50', 'cursor-not-allowed');
+                 purchasedLinkElement.setAttribute('title', 'Tài liệu này chưa có liên kết xem.');
+                 purchasedLinkElement.setAttribute('target', '_self');
+            } else {
+                 purchasedLinkElement.href = linkPurchased;
+                 purchasedLinkElement.classList.remove('opacity-50', 'cursor-not-allowed');
+                 purchasedLinkElement.removeAttribute('title');
+                 purchasedLinkElement.setAttribute('target', '_blank');
+            }
+
+            // --- 3. Cập nhật Xem Tài Liệu (Link Xem Trước - Logic Shopee) ---
+            const previewButton = document.getElementById('modal-preview-link');
+            
+            // Xóa mọi listener cũ
+            previewButton.onclick = null;
+            
+            // Chỉ hiện nút này nếu CÓ link Shopee HOẶC CÓ link Xem Trước thực tế
+            const isPreviewAvailable = linkShopee !== 'javascript:void(0)' || linkPreview !== 'javascript:void(0)';
+
+            if (!isPreviewAvailable) {
+                previewButton.setAttribute('disabled', 'true');
+                previewButton.classList.add('hidden');
+            } else {
+                previewButton.removeAttribute('disabled');
+                previewButton.classList.remove('hidden');
+                
+                // Thiết lập giao diện và logic dựa trên trạng thái click
+                if (clickedPreviewLinks.has(docId)) {
+                    previewButton.textContent = '✅ Xem Tài Liệu (Link Đã Mở)';
+                    previewButton.classList.remove('bg-accent-yellow', 'hover:bg-yellow-600');
+                    previewButton.classList.add('bg-green-500', 'hover:bg-green-600');
+                } else {
+                    previewButton.textContent = '👁️ Xem Tài Liệu (Link Xem Trước)';
+                    previewButton.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    previewButton.classList.add('bg-accent-yellow', 'hover:bg-yellow-600');
+                }
+                
+                // Gán hàm xử lý sự kiện
+                previewButton.onclick = () => handlePreviewClick(docId, linkShopee, linkPreview, previewButton);
+            }
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        // Hàm ẩn Modal (khi click ra ngoài)
+        function hideModal(event) {
+            if (event.target.id === 'detail-modal') {
+                document.getElementById('detail-modal').classList.add('hidden');
+            }
+        }
+        
+        // Hàm chính để tải dữ liệu
+        async function fetchDataAndRender() {
+            try {
+                let response;
+                const maxRetries = 3;
+                let attempt = 0;
+
+                while (attempt < maxRetries) {
+                    try {
+                        response = await fetch(CSV_URL);
+                        if (response.ok) break; 
+                    } catch (e) {
+                        console.warn(`Lỗi fetch (Thử lại ${attempt + 1}/${maxRetries}):`, e);
+                    }
+                    attempt++;
+                    if (attempt < maxRetries) await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); 
+                }
+
+                if (!response || !response.ok) {
+                    throw new Error(`Lỗi HTTP: ${response.status} sau ${maxRetries} lần thử.`);
+                }
+                
+                const csvText = await response.text();
+                
+                allDocuments = parseCSV(csvText);
+                
+                populateFilters(allDocuments);
+                applyFilters();
+
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu từ Google Sheets:", error);
+                const listContainer = document.getElementById('document-list');
+                document.getElementById('loading-message').classList.add('hidden');
+                listContainer.innerHTML = `
+                    <div class="col-span-full text-center py-10 bg-red-100 border border-red-400 rounded-xl">
+                        <p class="text-xl text-red-700 font-semibold">
+                            ⚠️ Không thể tải dữ liệu. Vui lòng kiểm tra lại liên kết CSV hoặc kết nối mạng.
+                        </p>
+                        <p class="text-sm text-red-500 mt-2">Chi tiết lỗi: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+// Khởi động khi trang tải xong
+        window.onload = function() {
+            fetchDataAndRender();
+        };
+
+    </script>
+</body>
+</html>
